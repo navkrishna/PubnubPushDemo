@@ -1,6 +1,7 @@
 package com.intelligrape.pubnubpushdemo;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -13,24 +14,26 @@ import com.pubnub.api.Pubnub;
 public class PubnubUtils {
     private static Pubnub pubnub;
 
-    public static Pubnub getPubnubInstance() {
-        if (pubnub == null)
-            pubnub = new Pubnub(AppConstants.PUBLISH_KEY, AppConstants.SUBSCRIBER_KEY);
+    public static Pubnub getPubnubInstance(Context context) {
+        if (pubnub == null) {
+            Resources resources = context.getResources();
+            pubnub = new Pubnub(resources.getString(R.string.pubnub_key_publish), resources.getString(R.string.pubnub_key_subscribe));
+        }
         return pubnub;
     }
 
-    public static void removePushFromAllChannel(Context mContext) {
-        String gcmRegistrationId = Utility.getString(mContext, AppConstants.KEY_GCM_REG_ID);
-        getPubnubInstance().removeAllPushNotificationsForDeviceRegistrationId(gcmRegistrationId);
+    public static void removePushFromAllChannel(Context context) {
+        String gcmRegistrationId = Utility.getString(context, AppConstants.KEY_GCM_REG_ID);
+        getPubnubInstance(context).removeAllPushNotificationsForDeviceRegistrationId(gcmRegistrationId);
     }
 
-    public static void gcmAddChannel(Context mContext, String channel) {
-        String gcmRegistrationId = Utility.getString(mContext, AppConstants.KEY_GCM_REG_ID);
+    public static void gcmAddChannel(Context context, String channel) {
+        String gcmRegistrationId = Utility.getString(context, AppConstants.KEY_GCM_REG_ID);
         if (TextUtils.isEmpty(gcmRegistrationId)) {
-            Toast.makeText(mContext, "GCM Registration id not set. Register to GCM and try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "GCM Registration id not set. Register to GCM and try again.", Toast.LENGTH_LONG).show();
             return;
         }
-        getPubnubInstance().enablePushNotificationsOnChannel(channel, gcmRegistrationId, new Callback() {
+        getPubnubInstance(context).enablePushNotificationsOnChannel(channel, gcmRegistrationId, new Callback() {
         });
     }
 }

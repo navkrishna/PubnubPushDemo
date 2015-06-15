@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
                 if (gcm == null) {
                     gcm = GoogleCloudMessaging.getInstance(mActivity);
                 }
-                String gcmRegistrationId = gcm.register(AppConstants.SENDER_ID);
+                String gcmRegistrationId = gcm.register(getResources().getString(R.string.gcm_sender_id));
                 Log.d(TAG, "registerInBackground - regId: " + gcmRegistrationId);
                 msg = "Device registered, registration ID=" + gcmRegistrationId;
                 storeRegistrationId(gcmRegistrationId);
