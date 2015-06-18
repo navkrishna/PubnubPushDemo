@@ -1,7 +1,7 @@
 A demo android app project for pubnub push notification implementation.
 
 
-NOTE: Provide your keys in AppConstants before running the project.
+NOTE: Provide your keys in keys.xml before running the project.
 
 
 Sample pubnub json to be sent:
