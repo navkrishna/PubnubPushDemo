@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
             Log.d(TAG, "successfully registered with GCM server - regId: " + registrationId);
         } else {
             Log.i(TAG, "RegId already available. RegId: " + registrationId);
-            PubnubUtils.removePushFromAllChannel(mActivity);
+//            PubnubUtils.removePushFromAllChannel(mActivity);
 //            getChannelListToSubscribe();
         }
     }
