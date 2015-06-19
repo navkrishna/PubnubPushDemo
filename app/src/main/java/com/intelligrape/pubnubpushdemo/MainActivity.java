@@ -7,6 +7,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -18,7 +21,22 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initViews();
         checkGCMStatus();
+    }
+
+    private void initViews() {
+        final EditText editTextChannel = (EditText) findViewById(R.id.edittext_channel);
+        Button buttonSubscribe = (Button) findViewById(R.id.button_subscribe);
+
+        buttonSubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String channelName = editTextChannel.getText().toString().trim();
+                PubnubUtils.gcmAddChannel(mActivity, channelName);
+                Utility.setString(mActivity, AppConstants.KEY_CHANNEL_NAME, channelName);
+            }
+        });
     }
 
     private void checkGCMStatus() {
@@ -28,8 +46,6 @@ public class MainActivity extends Activity {
             Log.d(TAG, "successfully registered with GCM server - regId: " + registrationId);
         } else {
             Log.i(TAG, "RegId already available. RegId: " + registrationId);
-//            PubnubUtils.removePushFromAllChannel(mActivity);
-//            getChannelListToSubscribe();
         }
     }
 
@@ -73,7 +89,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(String msg) {
-            getChannelListToSubscribe();
+            PubnubUtils.removePushFromAllChannel(mActivity);
         }
 
         private void storeRegistrationId(String regId) {
@@ -82,11 +98,6 @@ public class MainActivity extends Activity {
             Utility.setString(mActivity, AppConstants.KEY_GCM_REG_ID, regId);
             Utility.setInt(mActivity, AppConstants.KEY_APP_VERSION, appVersion);
         }
-    }
-
-    private void getChannelListToSubscribe() {
-        PubnubUtils.gcmAddChannel(mActivity, "channel1");
-        PubnubUtils.gcmAddChannel(mActivity, "channel2");
     }
 
     @Override

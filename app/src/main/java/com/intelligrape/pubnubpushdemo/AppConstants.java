@@ -7,4 +7,5 @@ public interface AppConstants {
     // keys for shared preferences
     String KEY_GCM_REG_ID = "key_gcm_reg_id";
     String KEY_APP_VERSION = "key_app_version";
+    String KEY_CHANNEL_NAME = "key_channel_name";
 }

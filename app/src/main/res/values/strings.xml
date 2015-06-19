@@ -4,5 +4,7 @@
     <string name="app_name">PubnubPushDemo</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="channel">channel1</string>
+    <string name="label_subscribe">Subscribe</string>
 
 </resources>
